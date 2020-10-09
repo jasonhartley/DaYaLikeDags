@@ -15,7 +15,6 @@ class DagsRefresher(
   override fun onTick(millisUntilFinished: Long) {
   }
 
-  @SuppressWarnings("MissingPermission")
   override fun onFinish() {
     performUpdate()
   }
@@ -24,15 +23,11 @@ class DagsRefresher(
   fun performUpdate() {
     fusedLocationClient.lastLocation
       .addOnSuccessListener { location ->
-        Log.i("dags1", "woot, update viewModel and re-start timer")
         viewModel.performUpdate(location)
         start()
       }
       .addOnFailureListener {
-        Log.i("dags1", "drat, failed to get location")
-      }
-      .addOnCompleteListener {
-        Log.i("dags1", "onComplete of getting location")
+        Log.e("dags1", "Failed to get last known location")
       }
   }
 

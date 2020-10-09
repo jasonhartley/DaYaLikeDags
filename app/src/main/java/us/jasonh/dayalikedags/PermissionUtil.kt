@@ -2,15 +2,13 @@ package us.jasonh.dayalikedags
 
 import android.Manifest
 import android.app.Activity
-import android.util.Log
 import androidx.core.app.ActivityCompat
 
 class PermissionUtil {
   companion object {
 
     fun requestLocationPermission(activity: Activity) {
-      Log.i("dags1", "requestLocationPermission")
-      requestPermission(activity, 13, // TODO: make an enum maybe
+      requestPermission(activity, RequestCode.LOCATION_PERMISSION,
         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
       )
     }

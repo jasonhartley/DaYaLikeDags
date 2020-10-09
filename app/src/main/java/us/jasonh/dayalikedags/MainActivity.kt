@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,12 +17,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import us.jasonh.dayalikedags.api.CatImageApi
 import us.jasonh.dayalikedags.api.DogImageApi
 import us.jasonh.dayalikedags.api.SunriseSunsetApi
-import us.jasonh.dayalikedags.databinding.ActivityFullscreenBinding
+import us.jasonh.dayalikedags.databinding.ActivityMainBinding
 import us.jasonh.dayalikedags.viewmodel.MainViewModel
+import us.jasonh.dayalikedags.viewmodel.UiState
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FullscreenActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
   @Inject lateinit var sunriseSunsetApi: SunriseSunsetApi
   @Inject lateinit var dogImageApi: DogImageApi
   @Inject lateinit var catImageApi: CatImageApi
@@ -37,15 +37,13 @@ class FullscreenActivity : AppCompatActivity() {
   private var isFullscreen: Boolean = false
 
   private val binding by lazy {
-    ActivityFullscreenBinding.inflate(
+    ActivityMainBinding.inflate(
       layoutInflater
     )
   }
 
   @SuppressLint("InlinedApi")
   private val hidePart2Runnable = Runnable {
-    // Delayed removal of status and navigation bar
-
     // Note that some of these constants are new as of API 16 (Jelly Bean)
     // and API 19 (KitKat). It is safe to use them, as they are inlined
     // at compile-time and do nothing on earlier devices.
@@ -97,19 +95,15 @@ class FullscreenActivity : AppCompatActivity() {
 
   override fun onStart() {
     super.onStart()
-    Log.i("dags1", "onStart()")
     if (isLocationPermissionGranted(this)) {
-      Log.i("dags1", "..location permission granted, start showing dags")
       dagsRefresher.performUpdate()
     } else {
-      Log.i("dags1", "..location permission NOT granted, ask for it")
       requestLocationPermission(this)
     }
   }
 
   override fun onStop() {
     super.onStop()
-    Log.i("dags1", "onStop()")
     dagsRefresher.cancel()
   }
 
@@ -124,7 +118,6 @@ class FullscreenActivity : AppCompatActivity() {
         permissions.forEach { permissionsAsSingleString += it }
         var grantResultsAsString = "size: ${grantResults.size}, values: "
         grantResults.forEach { grantResultsAsString += it.toString() }
-        Log.i("dags1", "onRequestPermissionsResult RequestCode.LOCATION_PERMISSION, permissions: $permissionsAsSingleString, grantResults: $grantResultsAsString")
         if (grantResults.contains(0)) {
           dagsRefresher.performUpdate()
         } else {

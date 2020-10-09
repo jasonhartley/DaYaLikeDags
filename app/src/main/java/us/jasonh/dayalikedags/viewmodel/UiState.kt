@@ -1,4 +1,4 @@
-package us.jasonh.dayalikedags
+package us.jasonh.dayalikedags.viewmodel
 
 import android.location.Location
 import us.jasonh.dayalikedags.model.NextSolarEvent
