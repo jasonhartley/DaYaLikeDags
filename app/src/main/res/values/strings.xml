@@ -1,5 +1,4 @@
 <resources>
   <string name="app_name">Da Ya Like Dags</string>
-  <string name="dummy_button">Dummy Button</string>
-  <string name="dummy_content">DUMMY\nCONTENT</string>
+  <string name="image_content_description">image of a dog or cat</string>
 </resources>

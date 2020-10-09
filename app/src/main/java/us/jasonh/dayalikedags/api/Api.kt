@@ -28,7 +28,7 @@ abstract class Api {
   inline fun <reified T> fetchResponse(request: Request<T>): T {
     val requestUrl = apiHost + request.getUrlResource()
     val requestBodyJson = request.getBodyAsJsonString(gson)
-    Log.i("dags", "${javaClass.simpleName} request url: $requestUrl, request body: $requestBodyJson")
+    Log.i("dags1", "${javaClass.simpleName} request url: $requestUrl, request body: $requestBodyJson")
 
     val requestBody = if (request.httpMethod === HttpMethod.GET) {
       null // GET method requests require a null body
@@ -42,7 +42,7 @@ abstract class Api {
     if (request.requiresAuthorization) {
       val sessionToken = getAuthorizationToken()
       if (sessionToken == null) {
-        Log.e("dags", "Request requires authorization, but the session token was null.")
+        Log.e("dags1", "Request requires authorization, but the session token was null.")
       } else {
         okHttpRequestBuilder.addHeader("Authorization", "Bearer $sessionToken")
       }
@@ -52,7 +52,7 @@ abstract class Api {
     val responseBody = response.body ?: throw IOException("Response body was null.")
     val responseBodyJson = responseBody.string() // this can throw IOException
     responseBody.close()
-    Log.i("dags", "${javaClass.simpleName} $response, response body: $responseBodyJson")
+    Log.i("dags1", "${javaClass.simpleName} $response, response body: $responseBodyJson")
 
     if (!response.isSuccessful) {
       throw IOException("${response.code} ${response.message} $responseBodyJson")

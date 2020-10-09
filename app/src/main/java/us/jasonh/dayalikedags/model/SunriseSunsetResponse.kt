@@ -1,6 +1,8 @@
 package us.jasonh.dayalikedags.model
 
+import com.google.gson.annotations.SerializedName
+
 data class SunriseSunsetResponse(
-    val sunriseSunset: SunriseSunset,
+    @SerializedName("results") val sunriseSunset: SunriseSunset,
     val status: String
 )
